@@ -1,0 +1,30 @@
+spring:
+  datasource :
+    url : jdbc:mysql://43.201.122.223:3306/bootex_ohs?characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+    driver-class-name : com.mysql.cj.jdbc.Driver
+    username : hansoo
+    password : Hansoo2023!
+  jpa :
+    database-platform : org.hibernate.dialect.MySQLDialect
+    hibernate :
+      #???? crate, update, create-drop, validate
+      #create? ?? ??? ??? ?? ??, update? ???? ??? ???? ??? ??? ??? alter
+      ddl-auto : update
+    #?? JPA ???? Hibernate? ????? ???? SQL? ????? ??
+    properties:
+      hibernate:
+        format_sql: true
+    #JPA ??? ???? SQL? ??? ??? ??
+    show-sql: true
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: true
+  thymeleaf:
+    cache: false
+
+server :
+  port : 8082
+
+
