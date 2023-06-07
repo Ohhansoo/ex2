@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+                                                <!-- this는 써도되고 안써도 된다-->
+  <th:block th:replace="~{/fragment/fragment3:: target(~{this:: #ulFirst}, ~{:: #ulSecond})}">
+
+    <ul id="ulFirst">
+      <li>AAA</li>
+      <li>BBB</li>
+      <li>CCC</li>
+    </ul>
+
+    <ul id="ulSecond">
+      <li>111</li>
+      <li>222</li>
+      <li>333</li>
+    </ul>
+
+  </th:block>
+
+</body>
+</html>
