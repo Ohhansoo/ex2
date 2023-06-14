@@ -40,11 +40,11 @@
         </div>
 
         <!--버튼영역 START-->
-        <a th:href="@{/guestbook/modify(gno = ${dto.gno}, page=${requestDTO.page}, type=${pageRequestDTO.type}, keyword=${pageRequestDTO.keyword})}">
+        <a th:href="@{/guestbook/modify(gno = ${dto.gno}, page=${requestDTO.page}, type=${requestDTO.type}, keyword=${requestDTO.keyword})}">
             <button type="button" class="btn btn-primary">Modify</button>
         </a>
 
-        <a th:href="@{/guestbook/list(page=${requestDTO.page}, type=${pageRequestDTO.type}, keyword=${pageRequestDTO.keyword})}">
+        <a th:href="@{/guestbook/list(page=${requestDTO.page}, type=${requestDTO.type}, keyword=${requestDTO.keyword})}">
             <button type="button" class="btn btn-info">List</button>
         </a>
         <!--버튼영역 END-->
