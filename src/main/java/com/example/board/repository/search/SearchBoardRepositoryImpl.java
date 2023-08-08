@@ -17,6 +17,8 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.querydsl.jpa.JPAExpressions.selectFrom;
+
 @Log4j2
 public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport implements SearchBoardRepository{
 
@@ -41,7 +43,7 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
         tuple.groupBy(board);
 
         log.info("--------------------");
-        log.info(jpqlQuery);
+        log.info(tuple);
         log.info("--------------------");
 
         List<Tuple> result = tuple.fetch();

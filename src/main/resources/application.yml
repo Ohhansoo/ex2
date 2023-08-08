@@ -23,6 +23,17 @@ spring:
       enabled: true
   thymeleaf:
     cache: false
+  servlet:
+    multipart :
+      enabled : true
+      location : C:\\upload
+      max-request-size: 30MB
+      max-file-size: 10MB
+
+org:
+  zerock:
+    upload:
+      path: C:\\upload
 
 server :
   port : 8082
