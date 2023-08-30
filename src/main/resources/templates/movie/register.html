@@ -7,7 +7,7 @@
 
     <h1 class="mt-4">Movie Register Page</h1>
 
-    <form th:action="@{/movie/registter}" th:method="post">
+    <form th:action="@{/movie/register}" th:method="post">
 
       <div class="form-group">
         <label>Title</label>
@@ -53,6 +53,10 @@
       }
     </style>
 
+    <div class="uploadResult">
+      <ul>
+      </ul>
+    </div>
     <script>
       $(document).ready(function(e) {
 
@@ -101,7 +105,7 @@
 
           //실제 업로드 부분
           //upload ajax
-          $.aJax({
+          $.ajax({
             url: '/uploadAjax',
             processData: false,
             contentType: false,
@@ -115,28 +119,71 @@
             error: function(jqXHR, textStatus, errorThrown){
               console.log(textStatus);
             }
-          }) // $.ajax
-        }) // end change event
+          }); // $.ajax
+        }); // end change event
 
-        function showResult(uploadResultArr){
+        $(".uploadResult").on("click", "li button", function (e){
+          console.log("delete file");
 
-          var uploadUL = $(".uploadResult ul");
+          var targetFile = $(this).data("file");
 
-          var str ="";
+          var targetLi = $(this).closest("li");
 
-          $(uploadResultArr).each(function(i, obj){
-            str += "<li data-name='" + obj.fileName + "' data-path='" + obj.folderPath+ "' datat-uuid='"+obj.uuid+"'>";
-            str + " <div>";
-            str += "<button type= 'button' data-file=\'" + obj.imageURL + "\' ";
-            str += "class='btn-warning btn-sm'>X</button><br>";
-            str += "<img src= '/display?fileName=" + obj.thumbnailURL + "'>";
-            str += "</div>";
-            str + "</li>";
-          })
+          $.ajax({
+            url: '/removeFile',
+            data: {fileName: targetFile},
+            dataType: 'text',
+            type: 'POST',
+            success: function(result){
+              alert(result);
 
-          uploadUL.append(str);
-        }
+              targetLi.remove();
+            }
+          }) //remove ajax
+        }) // li button click event
+
+        //prevent submit
+        $(".btn-primary").on("click", function (e){
+          e.preventDefault();
+          debugger;
+          var str = "";
+
+          $(".uploadResult li").each(function (i, obj){
+            var target = $(obj);
+
+            str += "<input type='hidden' name='imageDTOList["+i+"].imgName' value='"+target.data('name') + "'>";
+
+            str += "<input type='hidden' name='imageDTOList["+i+"].path' value='"+target.data('path') + "'>";
+
+            str += "<input type='hidden' name='imageDTOList["+i+"].uuid' value='"+target.data('uuid') + "'>";
+          });
+
+          //태그들이 추가된 것을 확인한 후에 comment 제거
+          $(".box").html(str);
+
+          //주석처리 하여 실제 서버를 호출하진 않지만 hidden 타입 태그들을 만듦
+          $("form").submit();
+        })
       });
+
+      //이미지 업로드 후 화면 출
+      function showResult(uploadResultArr){
+
+        var uploadUL = $(".uploadResult ul");
+
+        var str ="";
+
+        $(uploadResultArr).each(function(i, obj){
+          str += "<li data-name='" + obj.fileName + "' data-path='" + obj.folderPath+ "' data-uuid='"+obj.uuid+"'>";
+          str += " <div>";
+          str += "<button type= 'button' data-file=\'" + obj.imageURL + "\' ";
+          str += "class='btn-warning btn-sm'>X</button><br>";
+          str += "<img src= '/display?fileName=" + obj.thumbnailURL + "'>";
+          str += "</div>";
+          str += "</li>";
+        })
+        uploadUL.append(str);
+      }
     </script>
 
   </th:block>
