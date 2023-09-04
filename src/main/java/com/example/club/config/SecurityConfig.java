@@ -12,13 +12,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @Configuration
 @EnableWebSecurity
 @Log4j2
 public class SecurityConfig {
 
    @Bean
-
     public PasswordEncoder passwordEncoder() {
 
         return new BCryptPasswordEncoder();
@@ -31,8 +32,9 @@ public class SecurityConfig {
 
 
         http.authorizeHttpRequests((auth) -> {
-            auth.requestMatchers("/sample/all").permitAll();
-        });
+                    auth.requestMatchers("/sample/all").permitAll()
+                    .requestMatchers("/sample/member").hasRole("USER");
+        }).formLogin(withDefaults());
 
         return http.build();
     }
