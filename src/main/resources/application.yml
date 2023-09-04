@@ -38,4 +38,12 @@ org:
 server :
   port : 8082
 
+logging:
+  level:
+    org:
+      zerock: debug
+      springframework:
+        security:
+          web: trace
+
 
