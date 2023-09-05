@@ -1,6 +1,7 @@
 package com.example.club.config;
 
 import lombok.extern.log4j.Log4j2;
+import org.apache.catalina.filters.HttpHeaderSecurityFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -17,7 +18,6 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity
 @Log4j2
 public class SecurityConfig {
 
@@ -38,13 +38,19 @@ public class SecurityConfig {
                     .requestMatchers("/sample/member").hasRole("USER");
         }).formLogin(withDefaults());
 
-       // http.csrf(CsrfConfigurer::disable).disable();
-       // http.logout();
+       http.csrf((csrfConfig) ->
+               csrfConfig.disable()
+       );
+       http.logout((logoutConfig) ->
+               log.info("------log out--------")
+       );
+
+        http.oauth2Login((oauth2) -> log.info("------OAuth Login--------"));
 
         return http.build();
     }
 
-  @Bean
+/*  @Bean
    public InMemoryUserDetailsManager userDetailsService() {
       UserDetails user = User.builder()
               .username("user1")
@@ -52,5 +58,5 @@ public class SecurityConfig {
               .roles("USER")
               .build();
        return new InMemoryUserDetailsManager(user);
-    }
+    }*/
 }
